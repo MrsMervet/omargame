@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b7b73" />
+  <meta name="description" content="لعبة تعليمية تفاعلية عن عمر بن الخطاب رضي الله عنه - إعداد المعلمة ميرفت أمين" />
+  <title>لعبة الفاروق عمر بن الخطاب</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <section id="startScreen" class="screen start-screen active" aria-label="شاشة البداية">
+      <div class="sky-decoration" aria-hidden="true">
+        <span class="cloud c1">☁️</span><span class="cloud c2">☁️</span><span class="cloud c3">☁️</span>
+        <span class="spark s1">✨</span><span class="spark s2">✨</span><span class="spark s3">✨</span>
+      </div>
+
+      <div class="start-card glass">
+        <div class="badge">🎯 مسابقة تعليمية تفاعلية</div>
+        <h1>لعبة الفاروق<br><span>عمر بن الخطاب رضي الله عنه</span></h1>
+        <p class="teacher">إعداد المعلمة: <strong>ميرفت أمين</strong></p>
+        <div class="rule-chip">اقرأ السؤال ثم صوِّب على الإجابة الصحيحة في السماء 🌤️</div>
+
+        <label for="studentName">اسم الطالب / الطالبة</label>
+        <input id="studentName" type="text" maxlength="30" autocomplete="name" placeholder="اكتب اسمك هنا..." />
+        <p id="nameError" class="error" role="alert"></p>
+
+        <div class="mode-row">
+          <button class="mode-btn selected" data-count="15">⚡ جولة سريعة <small>15 سؤالًا</small></button>
+          <button class="mode-btn" data-count="25">🏆 تحدّي الأبطال <small>25 سؤالًا</small></button>
+        </div>
+
+        <button id="startBtn" class="primary-btn">ابدأ المغامرة 🚀</button>
+        <button id="soundToggleStart" class="ghost-btn" type="button">🔊 الصوت: مفعّل</button>
+
+        <div class="tiny-note">الأسئلة مبنية على الصفحات التعليمية المرفقة.</div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen game-screen" aria-label="شاشة اللعبة">
+      <header class="hud glass">
+        <div class="student-chip">👤 <span id="hudName">الطالب</span></div>
+        <div class="metric">⭐ <b id="score">0</b><span>نقطة</span></div>
+        <div class="metric">🔥 <b id="streak">0</b><span>تتابع</span></div>
+        <div class="metric">🎯 <b id="progress">1/15</b><span>السؤال</span></div>
+        <button id="soundToggle" class="icon-btn" aria-label="تشغيل أو كتم الصوت">🔊</button>
+        <button id="fullscreenBtn" class="icon-btn" aria-label="ملء الشاشة">⛶</button>
+      </header>
+
+      <main class="game-world" id="gameWorld">
+        <div class="sun" aria-hidden="true"></div>
+        <div class="far-cloud fc1" aria-hidden="true">☁️</div>
+        <div class="far-cloud fc2" aria-hidden="true">☁️</div>
+        <div class="far-cloud fc3" aria-hidden="true">☁️</div>
+
+        <section class="question-panel glass">
+          <div class="q-head">
+            <span class="q-number" id="qNumber">السؤال 1</span>
+            <button id="readQuestionBtn" class="listen-btn" type="button">🔊 اقرأ السؤال</button>
+          </div>
+          <h2 id="questionText">...</h2>
+          <div class="power-wrap" aria-label="قيمة السؤال">
+            <span>قوة السؤال</span>
+            <div class="power-track"><i id="powerBar"></i></div>
+            <b id="powerValue">100</b>
+          </div>
+        </section>
+
+        <div id="answersZone" class="answers-zone" aria-live="polite"></div>
+
+        <div id="feedback" class="feedback" role="status" aria-live="assertive"></div>
+        <div id="particleLayer" class="particle-layer" aria-hidden="true"></div>
+
+        <div class="ground" aria-hidden="true">
+          <div class="hills"></div>
+          <div class="flowers-ground">🌼🌷🌸🌺🌻🌸🌷🌼</div>
+        </div>
+
+        <div class="shooter" aria-hidden="true">
+          <div class="muzzle-flash" id="muzzleFlash">✨</div>
+          <div class="blaster">🔫</div>
+          <div class="hint">حرّك المؤشر ثم اضغط للتصويب</div>
+        </div>
+        <div id="crosshair" class="crosshair" aria-hidden="true"><span></span></div>
+      </main>
+    </section>
+
+    <section id="resultScreen" class="screen result-screen" aria-label="شاشة النتيجة">
+      <div class="result-card glass">
+        <div class="trophy">🏆</div>
+        <h2>أحسنت يا <span id="resultName"></span>!</h2>
+        <p class="result-sub">أنهيت مغامرة الفاروق عمر بن الخطاب رضي الله عنه.</p>
+
+        <div class="result-grid">
+          <div><span>⭐</span><b id="finalScore">0</b><small>النقاط</small></div>
+          <div><span>✅</span><b id="finalCorrect">0</b><small>إجابات صحيحة</small></div>
+          <div><span>🎯</span><b id="finalAccuracy">0%</b><small>دقة التصويب</small></div>
+          <div><span>🔥</span><b id="bestStreak">0</b><small>أفضل تتابع</small></div>
+        </div>
+
+        <div id="resultMessage" class="result-message"></div>
+
+        <div class="result-actions">
+          <button id="playAgainBtn" class="primary-btn">إعادة اللعب 🔁</button>
+          <button id="printBtn" class="secondary-btn">طباعة النتيجة 🖨️</button>
+        </div>
+        <p class="teacher footer-teacher">إعداد المعلمة: <strong>ميرفت أمين</strong></p>
+      </div>
+    </section>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
